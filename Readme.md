@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Павел Ерофеев](https://up.htmlacademy.ru/javascript/13/user/648979).
-* Наставник: `Неизвестно`.
+* Наставник: [Арсений Ильяшов](https://htmlacademy.ru/profile/id40943).
 
 ---
 
