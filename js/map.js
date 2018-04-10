@@ -28,7 +28,7 @@ var Data = {
   offer: {
     title: typeOfApartaments[i],
     address: location.x[i] + ', ' + location.y[i],
-    price: CalculatePrice[i],
+    price: Calculateprice[i],
     type: arrRandomTypeOfStructure[i],
     rooms: arrRooms[i],
     guests: arrGuest[i],
