@@ -4,10 +4,9 @@ var makeRandomNumber = function (min, max) {
   rand = Math.floor(rand);
   return rand;
 };
-var compareRandom = function ()
-{
-return Math.random() - 0.5;
-}
+var compareRandom = function () {
+  return Math.random() - 0.5;
+};
 var PictureWay = [];
 var typeOfApartaments = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var Calculateprice = [];
@@ -63,7 +62,7 @@ for (var i = 0; i <= 7; i++) {
   var possibleAmenities = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   possibleAmenities.length = randomLengthOfString;
   arrfeatures[i] = possibleAmenities;
-  var photosList = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
+  var photosList = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   photosList.sort(compareRandom);
   arrRandomSortListPhotos[i] = photosList;
   arrLocationX[i] = makeRandomNumber(300, 900);
