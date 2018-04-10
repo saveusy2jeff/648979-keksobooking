@@ -74,5 +74,3 @@ arrLocationX.push(arrLocationX[i])
 arrLocationY[i] = makeRandomNumber (150, 500)
 arrLocationY.push(arrLocationY[i])
 }
-document.querySelector('.map')classList.remove('map-faded')
-
