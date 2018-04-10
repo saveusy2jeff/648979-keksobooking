@@ -22,7 +22,7 @@ var arrfeatures = [];
 var arrRandomSortListPhotos = [];
 var arrLocationX = [];
 var arrLocationY = [];
-{
+var Data = {
   author: {
     avatar: PictureWay[i]
   },
