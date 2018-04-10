@@ -17,7 +17,8 @@ var arrGuest = [];
 var arrfeatures = [];
 var arrRandomSortListPhotos = [];
 var arrLocationX = [];
-var arrLocationY = []; {
+var arrLocationY = [];
+var data = {
     author: {
         avatar: PictureWay[i]
     },
