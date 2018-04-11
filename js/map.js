@@ -1,5 +1,5 @@
 'use strict';
-var mainArr = []
+var mainArr = [];
 var makeRandomNumber = function (min, max) {
   var rand = min + Math.random() * (max + 1 - min);
   rand = Math.floor(rand);
@@ -23,18 +23,19 @@ for (var i = 0; i <= 7; i++) {
       title: typeOfApartaments[i],
       address: location.x + ', ' + location.y,
       price: makeRandomNumber(1000, 1000000),
-      type: typeOfStructure[makeRandomNumber(0, typeOfStructure -1)],
-      rooms: makeRandomNumber (1, 5),
-      guests: makeRandomNumber (1, 20),
+      type: typeOfStructure[makeRandomNumber(0, typeOfStructure - 1)],
+      rooms: makeRandomNumber(1, 5),
+      guests: makeRandomNumber(1, 20),
       checkin: CheckTime[makeRandomNumber(0, CheckTime.length - 1)],
       checkout: CheckTime[makeRandomNumber(0, CheckTime.length - 1)],
       features: randomLengthFeatures,
       description: '',
-      photos: photos.sort (compareRandom)
+      photos: photos.sort(compareRandom)
     },
     location: {
       x: makeRandomNumber(300, 900),
       y: makeRandomNumber(150, 500)
     }
   };
+  mainArr.push(Data)
 }
