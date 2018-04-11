@@ -37,5 +37,5 @@ for (var i = 0; i <= 7; i++) {
       y: makeRandomNumber(150, 500)
     }
   };
-  mainArr.push(Data)
+  mainArr.push(Data);
 }
