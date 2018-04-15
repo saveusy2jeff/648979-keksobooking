@@ -5,22 +5,6 @@ var makeRandomNumber = function (min, max) {
   rand = Math.floor(rand);
   return rand;
 };
-//функция для отображения типа жилья на русском языке
-var typeOfferTranslate = function ()
-{
-  if (mainArr[i].Data.offer.type = 'palace') {
-    return 'Дворец'
-  }
-  if (mainArr[i].Data.offer.type = 'house') { 
-    return 'Дом'
-  }
-  if (mainArr[i].Data.offer.type = 'bungalo') { 
-    return 'Бунгало'
-  }
-  if (mainArr[i].Data.offer.type = 'flat') { 
-    return 'Квартира'
-  }
-}
 var compareRandom = function () {
   return Math.random() - 0.5;
 };
@@ -37,8 +21,7 @@ for (var i = 0; i <= 7; i++) {
   var _location = {
     x: makeRandomNumber(300, 900),
     y: makeRandomNumber(150, 500)
-  }
-
+  };
   var randomLengthFeatures = features.slice(0, makeRandomNumber(1, 6));
   var Data = {
     author: {
@@ -64,14 +47,14 @@ for (var i = 0; i <= 7; i++) {
   };
   mainArr.push(Data);
 }
-//запрос к всему блоку мэп
+  //запрос к всему блоку мэп
 var blockMap = document.querySelector('.map');
-// запрос к месту где должны находиться метки
+  // запрос к месту где должны находиться метки
 var houseOfPins = document.querySelector('.map__pins');
-// убираем класс map-faded
+  // убираем класс map-faded
 blockMap.classList.remove('map-faded');
-// копируем тег img для отображения нескольких картинок в обьявлении
-// создаю функцию для создания одного img с неизвестным src
+  // копируем тег img для отображения нескольких картинок в обьявлении
+  // создаю функцию для создания одного img с неизвестным src
 var addPhotos = function(adressElement) {
   var newPhotoElement = document.createElement('img');
   newPhotoElement.src = adressElement;
@@ -88,39 +71,55 @@ var createPhotoFragment = function (functionAddElement, array) {
     fragment.appendChild(functionAddElement(array[numberPhoto]))
   }
 }
-// функция удаления элементов
+  // функция удаления элементов
 var removePhotoElement = function () {
   var parent = document.querySelector('.popup__photos')
   var child = document.querySelector('.popup__photo')
   parent.removeChild(child)
 }
-// запрос к шаблону с разметкой метки
+  // запрос к шаблону с разметкой метки
 var templatePin = document.querySelector('template').content.querySelector('.map__pin')
-/// создаем функцию для изменения веток
+  // создаем функцию для изменения веток
 var renderPin = function () {
   // копируем шаблон
 var clonedPin = templatePin.cloneNode(true);
-// вносим изменения в позиции расположение метки, добавляем аватарку, заголовок объявления
+  // вносим изменения в позиции расположение метки, добавляем аватарку, заголовок объявления
 clonedPin.style = 'left: ' + (mainArr[i].Data._location.x + 20) + 
 'px; top: '+ (mainArr[i].Data._location.y + 40) + 'px';
 clonedPin.querySelector('img').src = mainArr[i].Data.author.avatar;
 clonedPin.alt = mainArr[i].Data.offer.title;
 return clonedPin;
 };
-// создаем фрагмент
+ // создаем фрагмент
 var fragment = document.createDocumentFragment();
-//далее в цикле
+ //далее в цикле
 for (var i = 0; i<= mainArr.length - 1; i++) {
-//добавляем метки в дом для пинс
+ //добавляем метки в дом для пинс
 fragment.appendChild(renderPin());
 }
-//добавляем фрагмент в map__pins
+ //добавляем фрагмент в map__pins
 houseOfPins.appendChild(fragment);
-// запрос шаблона объявления 
+ // запрос шаблона объявления 
 var templateCard = document.querySelector('template').content.querySelector('.map__card');
-// расположение блока map__filters-container, до которого нужно вставить наши элементы
+ // расположение блока map__filters-container, до которого нужно вставить наши элементы
 var blocMapFilters = document.querySelector('.map__filters-container');
-// создаем функцию для объявлений
+ //функция для отображения типа жилья на русском языке
+ var typeOfferTranslate = function () {
+  if (mainArr[i].Data.offer.type = 'palace') {
+    return 'Дворец'
+  };
+  if (mainArr[i].Data.offer.type = 'house') { 
+    return 'Дом'
+  };
+  if (mainArr[i].Data.offer.type = 'bungalo') { 
+    return 'Бунгало'
+  };
+  if (mainArr[i].Data.offer.type = 'flat') { 
+    return 'Квартира'
+  };
+  return 'Неизвестная постройка';
+};
+  // создаем функцию для объявлений
 var renderCard = function ()
 {
   // копируем шаблон
@@ -141,10 +140,10 @@ clonedCard.querySelector('.popup__photos').appendChild(createPhotoFragment(addPh
 querySelector('.popup__avatar').src = mainArr[i].Data.author.avatar;
 return clonedCard;
 }
-//создаем фрагмент для объявлений
+  //создаем фрагмент для объявлений
 var fragment = document.createDocumentFragment();
 for (var i = 0; i<= mainArr.length - 1; i++) {
 fragment.appendChild(renderCard())
 }
-// добавляем фрагмент перед блоком.map__filters-container
+  // добавляем фрагмент перед блоком.map__filters-container
 blockMap.insertBefore(fragment, blocMapFilters);
