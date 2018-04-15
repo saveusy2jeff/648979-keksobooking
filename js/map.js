@@ -135,7 +135,7 @@ clonedCard.querySelector('.popup__text--capacity').textContent = mainArr[i].Data
 ' комнаты для ' + mainArr[i].Data.offer.guests + ' гостей';
 clonedCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + 
 mainArr[i].Data.offer.checkin + ',выезд до ' + mainArr[i].Data.offer.checkout;
-clonedCard.querySelector('.popup__features') = mainArr[i].Data.offer.features;
+clonedCard.querySelector('.popup__features').textContent = mainArr[i].Data.offer.features;
 removePhotoElement();
 clonedCard.querySelector('.popup__photos').appendChild(createPhotoFragment(addPhotos(adressPhoto[numberPhoto]), adressPhoto))
 querySelector('.popup__avatar').src = mainArr[i].Data.author.avatar;
