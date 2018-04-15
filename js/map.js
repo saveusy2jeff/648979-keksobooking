@@ -55,39 +55,26 @@ var houseOfPins = document.querySelector('.map__pins');
 blockMap.classList.remove('map-faded');
 // копируем тег img для отображения нескольких картинок в обьявлении
 // создаю функцию для создания одного img с неизвестным src
-var addPhotos = function (adressElement) {
+var addPhotos = function (addressElement) {
   var newPhotoElement = document.createElement('img');
-  newPhotoElement.src = adressElement;
+  newPhotoElement.src = addressElement;
   newPhotoElement.alt = 'Фотография';
   newPhotoElement.width = 45;
   newPhotoElement.heigth = 40;
   newPhotoElement.classList.add('popup_photo');
   return newPhotoElement;
 };
-  // создаю функцию которая формирует фрагмент создания новых фото элементов
-var createPhotoFragment = function (functionAddElement, array) {
-  var fragment = document.createDocumentFragment();
-  for (var numberPhoto = 0; numberPhoto < array.length; numberPhoto++) {
-    fragment.appendChild(functionAddElement(array[numberPhoto]));
-  }
-};
-// функция удаления элементов
-var removePhotoElement = function () {
-  var parent = document.querySelector('.popup__photos');
-  var child = document.querySelector('.popup__photo');
-  parent.removeChild(child);
-};
 // запрос к шаблону с разметкой метки
 var templatePin = document.querySelector('template').content.querySelector('.map__pin');
 // создаем функцию для изменения веток
-var renderPin = function () {
+var renderPin = function (dataObj) {
 // копируем шаблон
   var clonedPin = templatePin.cloneNode(true);
   // вносим изменения в позиции расположение метки, добавляем аватарку, заголовок объявления
-  clonedPin.style = 'left: ' + (mainArr[i].Data._location.x + 20) +
-'px; top: ' + (mainArr[i].Data._location.y + 40) + 'px';
-  clonedPin.querySelector('img').src = mainArr[i].Data.author.avatar;
-  clonedPin.alt = mainArr[i].Data.offer.title;
+  clonedPin.style = 'left: ' + (dataObj.location.x + 20) +
+  'px; top: ' + (dataObj.location.y + 40) + 'px';
+  clonedPin.querySelector('img').src = dataObj.author.avatar;
+  clonedPin.alt = dataObj.offer.title;
   return clonedPin;
 };
 // создаем фрагмент
@@ -95,7 +82,7 @@ var fragment = document.createDocumentFragment();
 // далее в цикле
 for (var numberOfObj = 0; numberOfObj <= mainArr.length - 1; numberOfObj++) {
   // добавляем метки в дом для пинс
-  fragment.appendChild(renderPin());
+  fragment.appendChild(renderPin(mainArr[numberOfObj]));
 }
 // добавляем фрагмент в map__pins
 houseOfPins.appendChild(fragment);
@@ -104,45 +91,52 @@ var templateCard = document.querySelector('template').content.querySelector('.ma
 // расположение блока map__filters-container, до которого нужно вставить наши элементы
 var blocMapFilters = document.querySelector('.map__filters-container');
 // функция для отображения типа жилья на русском языке
-var typeOfferTranslate = function () {
-  if (mainArr[i].Data.offer.type = 'palace') {
+var typeOfferTranslate = function (dataObj) {
+  if (dataObj.offer.type = 'palace') {
     return 'Дворец';
   }
-  if (mainArr[i].Data.offer.type = 'house') {
+  if (dataObj.offer.type = 'house') {
     return 'Дом';
   }
-  if (mainArr[i].Data.offer.type = 'bungalo') {
+  if (dataObj.offer.type = 'bungalo') {
     return 'Бунгало';
   }
-  if (mainArr[i].Data.offer.type = 'flat') {
+  if (dataObj.offer.type = 'flat') {
     return 'Квартира';
   }
   return 'Неизвестная постройка';
 };
   // создаем функцию для объявлений
-var renderCard = function () {
+var renderCard = function (dataObj, request) {
   // копируем шаблон
   var clonedCard = templateCard.cloneNode(true);
-  var adressPhoto = mainArr[i].Data.offer.photos;
+  var addressPhoto = dataObj.offer.photos;
   // вносим изменения в позиции заголовок, адрес, цену, тип жилья, комнаты, гости, время заезда - выезда, удобства, описание, фотки
-  clonedCard.querySelector('.popup__title').textContent = mainArr[i].Data.offer.title;
-  clonedCard.querySelector('.popup__text--adress').textContent = mainArr[i].Data.offer.address;
-  clonedCard.querySelector('.popup__text--price').textContent = mainArr[i].Data.offer.price + ' р/ночь';
-  clonedCard.querySelector('.popup__type').textContent = typeOfferTranslate();
-  clonedCard.querySelector('.popup__text--capacity').textContent = mainArr[i].Data.offer.rooms +
-  ' комнаты для ' + mainArr[i].Data.offer.guests + ' гостей';
+  clonedCard.querySelector('.popup__title').textContent = dataObj.offer.title;
+  clonedCard.querySelector('.popup__text--address').textContent = dataObj.offer.address;
+  clonedCard.querySelector('.popup__text--price').textContent = dataObj.offer.price + ' р/ночь';
+  clonedCard.querySelector('.popup__type').textContent = typeOfferTranslate(dataObj);
+  clonedCard.querySelector('.popup__text--capacity').textContent = dataObj.offer.rooms +
+  ' комнаты для ' + dataObj.offer.guests + ' гостей';
   clonedCard.querySelector('.popup__text--time').textContent = 'Заезд после ' +
-  mainArr[i].Data.offer.checkin + ',выезд до ' + mainArr[i].Data.offer.checkout;
-  clonedCard.querySelector('.popup__features').textContent = mainArr[i].Data.offer.features;
-  removePhotoElement();
-  clonedCard.querySelector('.popup__photos').appendChild(createPhotoFragment(addPhotos, adressPhoto));
-  clonedCard.querySelector('.popup__avatar').src = mainArr[i].Data.author.avatar;
+  dataObj.offer.checkin + ',выезд до ' + dataObj.offer.checkout;
+  clonedCard.querySelector('.popup__features').textContent = dataObj.offer.features;
+  var photosList = clonedCard.querySelector('.popup_photos');
+  photosList.removeChild(photosList.children[0]);
+  for (var numberPhoto = 0; numberPhoto <= dataObj.length - 1; numberPhoto++) {
+     var photoItem = clonedCard.querySelector('.popup__photo');
+     phoyoItem.src = dataObj.offer.photos[numberPhoto];
+    photoList.appendChild(photoItem);
+  };
+  clonedCard.querySelector('.popup__avatar').src = dataObj.author.avatar;
   return clonedCard;
 };
+  // копируем шаблон
+  var clonedCard = templateCard.cloneNode(true);
 // создаем фрагмент для объявлений
 var cardFragment = document.createDocumentFragment();
 for (var numberOfObjCard = 0; numberOfObjCard <= mainArr.length - 1; numberOfObjCard++) {
-  cardFragment.appendChild(renderCard);
+  cardFragment.appendChild(renderCard(mainArr[numberOfObjCard]));
 }
 // добавляем фрагмент перед блоком.map__filters-container
-blockMap.insertBefore(fragment, blocMapFilters);
+blockMap.insertBefore(cardFragment, blocMapFilters);
