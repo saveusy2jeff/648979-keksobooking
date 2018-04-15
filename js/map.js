@@ -140,9 +140,9 @@ var renderCard = function () {
   return clonedCard;
 };
 // создаем фрагмент для объявлений
-var cardFragment = document.createDocumentFragment ();
-for (var numberOfObj = 0; numberOfObj <= mainArr.length - 1; numberOfObj++) {
-  cardFragment.appendChild (renderCard)
-};
+var cardFragment = document.createDocumentFragment();
+for (var numberOfObjCard = 0; numberOfObjCard <= mainArr.length - 1; numberOfObjCard++) {
+  cardFragment.appendChild(renderCard);
+}
 // добавляем фрагмент перед блоком.map__filters-container
 blockMap.insertBefore(fragment, blocMapFilters);
