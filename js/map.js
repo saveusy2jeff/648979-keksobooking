@@ -52,7 +52,7 @@ var blockMap = document.querySelector('.map');
 // запрос к месту где должны находиться метки
 var houseOfPins = document.querySelector('.map__pins');
 // убираем класс map-faded
-blockMap.classList.remove('map-faded');
+blockMap.classList.remove('map--faded');
 // копируем тег img для отображения нескольких картинок в обьявлении
 // создаю функцию для создания одного img с неизвестным src
 var addPhotos = function (addressElement) {
@@ -106,33 +106,46 @@ var typeOfferTranslate = function (dataObj) {
   }
   return 'Неизвестная постройка';
 };
+// функция для добавление активных фичер
+var addFeature = function (features, clonedCard) {
+  var requestFeature = clonedCard.querySelector('.popup__features');
+  var featureTemplate = document.querySelector('template').content.querySelector('.popup__feature');
+  for (var numberFeature = 0; numberFeature <= numberFeature.length - 1; numberFeature++) {
+    var clonedFeature = featureTemplate.cloneNode(true);
+    clonedFeature.className = 'popup__feature popup__feature--' + features[numberFeature];
+    requestFeature.appendChild(clonedFeature);
+  }
+};
+// функция для добавления фотографий
+var addPhotos = function (photos, clonedCard) {
+var photosList = clonedCard.querySelector('.popup__photos');
+var photo = photosList.querySelector('img');
+  for (var numberPhoto = 0; numberPhoto <= photos.length - 1; numberPhoto++) {
+     var photoItem = photo.cloneNode(true);
+     photoItem.src = photos[numberPhoto];
+    photoList.appendChild(photo);
+  };
+  photosList.firstElementChild.remove(photosList)
+  return photosList;
+};
   // создаем функцию для объявлений
-var renderCard = function (dataObj, request) {
+var renderCard = function (dataObj) {
   // копируем шаблон
   var clonedCard = templateCard.cloneNode(true);
-  var addressPhoto = dataObj.offer.photos;
   // вносим изменения в позиции заголовок, адрес, цену, тип жилья, комнаты, гости, время заезда - выезда, удобства, описание, фотки
   clonedCard.querySelector('.popup__title').textContent = dataObj.offer.title;
   clonedCard.querySelector('.popup__text--address').textContent = dataObj.offer.address;
-  clonedCard.querySelector('.popup__text--price').textContent = dataObj.offer.price + ' р/ночь';
+  clonedCard.querySelector('.popup__text--price').textContent = dataObj.offer.price + '₽/ночь';
   clonedCard.querySelector('.popup__type').textContent = typeOfferTranslate(dataObj);
   clonedCard.querySelector('.popup__text--capacity').textContent = dataObj.offer.rooms +
   ' комнаты для ' + dataObj.offer.guests + ' гостей';
   clonedCard.querySelector('.popup__text--time').textContent = 'Заезд после ' +
   dataObj.offer.checkin + ',выезд до ' + dataObj.offer.checkout;
-  clonedCard.querySelector('.popup__features').textContent = dataObj.offer.features;
-  var photosList = clonedCard.querySelector('.popup_photos');
-  photosList.removeChild(photosList.children[0]);
-  for (var numberPhoto = 0; numberPhoto <= dataObj.length - 1; numberPhoto++) {
-     var photoItem = clonedCard.querySelector('.popup__photo');
-     phoyoItem.src = dataObj.offer.photos[numberPhoto];
-    photoList.appendChild(photoItem);
-  };
+  addFeature (dataObj.offer.features, clonedCard);
+  addPhotos (dataObj.offer.photos, clonedCard);
   clonedCard.querySelector('.popup__avatar').src = dataObj.author.avatar;
   return clonedCard;
 };
-  // копируем шаблон
-  var clonedCard = templateCard.cloneNode(true);
 // создаем фрагмент для объявлений
 var cardFragment = document.createDocumentFragment();
 for (var numberOfObjCard = 0; numberOfObjCard <= mainArr.length - 1; numberOfObjCard++) {
@@ -140,3 +153,5 @@ for (var numberOfObjCard = 0; numberOfObjCard <= mainArr.length - 1; numberOfObj
 }
 // добавляем фрагмент перед блоком.map__filters-container
 blockMap.insertBefore(cardFragment, blocMapFilters);
+
+
