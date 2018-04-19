@@ -5,6 +5,8 @@ var makeRandomNumber = function (min, max) {
   rand = Math.floor(rand);
   return rand;
 };
+var MIN_FEATURES = 1;
+var MAX_FEATURES = 6;
 var compareRandom = function () {
   return Math.random() - 0.5;
 };
@@ -22,7 +24,14 @@ for (var i = 0; i <= 7; i++) {
     x: makeRandomNumber(300, 900),
     y: makeRandomNumber(150, 500)
   };
-  var randomLengthFeatures = features.slice(0, makeRandomNumber(1, 6));
+  var randomLengthFeatures = function (array) {
+    var arrayFeatures = [];
+    var amountFeatures = makeRandomNumber(MIN_FEATURES, MAX_FEATURES);
+    for (var i = 0; i <= amountFeatures - 1; i++) {
+      arrayFeatures.push(array[i])
+    }
+    return arrayFeatures
+  }
   var Data = {
     author: {
       avatar: 'img/avatars/user0' + (i + 1) + '.png'
@@ -36,7 +45,7 @@ for (var i = 0; i <= 7; i++) {
       guests: makeRandomNumber(1, 20),
       checkin: CheckTime[makeRandomNumber(0, CheckTime.length - 1)],
       checkout: CheckTime[makeRandomNumber(0, CheckTime.length - 1)],
-      features: randomLengthFeatures,
+      features: randomLengthFeatures(features),
       description: '',
       photos: photos.sort(compareRandom).slice()
     },
@@ -107,14 +116,19 @@ var typeOfferTranslate = function (dataObj) {
   return 'Неизвестная постройка';
 };
 // функция для добавление активных фичер
-var addFeature = function (features, clonedCard) {
+var addFeature = function (amenities, clonedCard) {
   var requestFeature = clonedCard.querySelector('.popup__features');
   var featureTemplate = document.querySelector('template').content.querySelector('.popup__feature');
-  for (var numberFeature = 0; numberFeature <= numberFeature.length - 1; numberFeature++) {
+  var children = requestFeature.children;
+  while (requestFeature.firstChild) {
+    requestFeature.removeChild(requestFeature.firstChild);
+}
+  for (var numberFeature = 0; numberFeature <= amenities.length - 1; numberFeature++) {
     var clonedFeature = featureTemplate.cloneNode(true);
-    clonedFeature.className = 'popup__feature popup__feature--' + features[numberFeature];
+    clonedFeature.className = 'popup__feature popup__feature--' + amenities[numberFeature];
     requestFeature.appendChild(clonedFeature);
   }
+  return requestFeature
 };
 // функция для добавления фотографий
 var addPhotos = function (photos, clonedCard) {
@@ -123,7 +137,7 @@ var photo = photosList.querySelector('img');
   for (var numberPhoto = 0; numberPhoto <= photos.length - 1; numberPhoto++) {
      var photoItem = photo.cloneNode(true);
      photoItem.src = photos[numberPhoto];
-    photoList.appendChild(photo);
+    photosList.appendChild(photoItem);
   };
   photosList.firstElementChild.remove(photosList)
   return photosList;
@@ -153,5 +167,4 @@ for (var numberOfObjCard = 0; numberOfObjCard <= mainArr.length - 1; numberOfObj
 }
 // добавляем фрагмент перед блоком.map__filters-container
 blockMap.insertBefore(cardFragment, blocMapFilters);
-
 
