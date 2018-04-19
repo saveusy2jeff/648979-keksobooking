@@ -27,11 +27,11 @@ for (var i = 0; i <= 7; i++) {
   var randomLengthFeatures = function (array) {
     var arrayFeatures = [];
     var amountFeatures = makeRandomNumber(MIN_FEATURES, MAX_FEATURES);
-    for (var i = 0; i <= amountFeatures - 1; i++) {
-      arrayFeatures.push(array[i])
+    for (var featuresNumber = 0; featuresNumber <= amountFeatures - 1; featuresNumber++) {
+      arrayFeatures.push(array[featuresNumber]);
     }
-    return arrayFeatures
-  }
+    return arrayFeatures;
+  };
   var Data = {
     author: {
       avatar: 'img/avatars/user0' + (i + 1) + '.png'
@@ -62,17 +62,6 @@ var blockMap = document.querySelector('.map');
 var houseOfPins = document.querySelector('.map__pins');
 // убираем класс map-faded
 blockMap.classList.remove('map--faded');
-// копируем тег img для отображения нескольких картинок в обьявлении
-// создаю функцию для создания одного img с неизвестным src
-var addPhotos = function (addressElement) {
-  var newPhotoElement = document.createElement('img');
-  newPhotoElement.src = addressElement;
-  newPhotoElement.alt = 'Фотография';
-  newPhotoElement.width = 45;
-  newPhotoElement.heigth = 40;
-  newPhotoElement.classList.add('popup_photo');
-  return newPhotoElement;
-};
 // запрос к шаблону с разметкой метки
 var templatePin = document.querySelector('template').content.querySelector('.map__pin');
 // создаем функцию для изменения веток
@@ -119,27 +108,26 @@ var typeOfferTranslate = function (dataObj) {
 var addFeature = function (amenities, clonedCard) {
   var requestFeature = clonedCard.querySelector('.popup__features');
   var featureTemplate = document.querySelector('template').content.querySelector('.popup__feature');
-  var children = requestFeature.children;
   while (requestFeature.firstChild) {
     requestFeature.removeChild(requestFeature.firstChild);
-}
+  }
   for (var numberFeature = 0; numberFeature <= amenities.length - 1; numberFeature++) {
     var clonedFeature = featureTemplate.cloneNode(true);
     clonedFeature.className = 'popup__feature popup__feature--' + amenities[numberFeature];
     requestFeature.appendChild(clonedFeature);
   }
-  return requestFeature
+  return requestFeature;
 };
 // функция для добавления фотографий
-var addPhotos = function (photos, clonedCard) {
-var photosList = clonedCard.querySelector('.popup__photos');
-var photo = photosList.querySelector('img');
-  for (var numberPhoto = 0; numberPhoto <= photos.length - 1; numberPhoto++) {
-     var photoItem = photo.cloneNode(true);
-     photoItem.src = photos[numberPhoto];
+var addPhotos = function (photoParameter, clonedCard) {
+  var photosList = clonedCard.querySelector('.popup__photos');
+  var photo = photosList.querySelector('img');
+  for (var numberPhoto = 0; numberPhoto <= photoParameter.length - 1; numberPhoto++) {
+    var photoItem = photo.cloneNode(true);
+    photoItem.src = photoParameter[numberPhoto];
     photosList.appendChild(photoItem);
-  };
-  photosList.firstElementChild.remove(photosList)
+  }
+  photosList.firstElementChild.remove(photosList);
   return photosList;
 };
   // создаем функцию для объявлений
@@ -155,8 +143,8 @@ var renderCard = function (dataObj) {
   ' комнаты для ' + dataObj.offer.guests + ' гостей';
   clonedCard.querySelector('.popup__text--time').textContent = 'Заезд после ' +
   dataObj.offer.checkin + ',выезд до ' + dataObj.offer.checkout;
-  addFeature (dataObj.offer.features, clonedCard);
-  addPhotos (dataObj.offer.photos, clonedCard);
+  addFeature(dataObj.offer.features, clonedCard);
+  addPhotos(dataObj.offer.photos, clonedCard);
   clonedCard.querySelector('.popup__avatar').src = dataObj.author.avatar;
   return clonedCard;
 };
