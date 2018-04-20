@@ -90,16 +90,16 @@ var templateCard = document.querySelector('template').content.querySelector('.ma
 var blocMapFilters = document.querySelector('.map__filters-container');
 // функция для отображения типа жилья на русском языке
 var typeOfferTranslate = function (dataObj) {
-  if (dataObj.offer.type = 'palace') {
+  if (dataObj.offer.type === 'palace') {
     return 'Дворец';
   }
-  if (dataObj.offer.type = 'house') {
+  if (dataObj.offer.type === 'house') {
     return 'Дом';
   }
-  if (dataObj.offer.type = 'bungalo') {
+  if (dataObj.offer.type === 'bungalo') {
     return 'Бунгало';
   }
-  if (dataObj.offer.type = 'flat') {
+  if (dataObj.offer.type === 'flat') {
     return 'Квартира';
   }
   return 'Неизвестная постройка';
