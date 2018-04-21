@@ -158,32 +158,38 @@ var adFieldsetRequest = document.querySelector('.ad-form').querySelectorAll('fie
 for (var fieldsetNumber = 0; fieldsetNumber <= adFieldsetRequest.length - 1; fieldsetNumber++) {
   adFieldsetRequest[fieldsetNumber].setAttribute('disabled', 'disabled');
 }
+var popupRequest = document.querySelectorAll('map__card')
+for (var popupNumber = 0; popupNumber <= popupRequest.length - 1; popupRequest++) {
+popupRequest[popupNumber].setAttribute('hidden', true);
+}
 var mainPinRequest = document.querySelector('.map__pin--main');
 // начальные координаты
 var MAP_HEIGTH = 750;
 var MAP_WIDTH = 1200;
 var MAP_PIN_HEIGTH = 70;
+var MAP_PIN_WIDTH = 50;
 var currentAddress = document.querySelector('fieldset.ad-form__element--wide input[id=address]');
 var firstCoordinates = {
-  x: Math.floor(MAP_WIDTH / 2),
+  x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
   y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
 };
-currentAddress.textContent = firstCoordinates.x + ', ' + firstCoordinates.y; 
+currentAddress.value = firstCoordinates.x + ', ' + firstCoordinates.y;
 var activatePage = function () {
   blockMap.classList.remove('map--faded');
-};
-var changeAdress = function () {
-  var changeMapCoordinates = {
-    x: Math.floor(MAP_WIDTH / 2),
-    y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
-  };
-  currentAddress.textContent = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
-};
-var activateForm = function () {
   var adForm = document.querySelector('.ad-form');
-  adForm.classList.remove('ad-form--disabled')
+  adForm.classList.remove('ad-form--disabled');
   for (var fieldsetActiveNumber = 0; fieldsetActiveNumber <= adFieldsetRequest.length - 1; fieldsetActiveNumber++) {
     adFieldsetRequest[fieldsetActiveNumber].removeAttribute('disabled');
   }
+  var changeMapCoordinates = {
+    x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
+    y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
+  };
+  currentAddress.value = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
 };
-mainPinRequest.addEventListener('mouseup', activatePage, changeAdress, activateForm);
+mainPinRequest.addEventListener('mouseup', activatePage);
+// var activatePage = function (elementPin) {
+  // elementPin.addEventListener(function(evt)){
+    // currentAddress.value = button.style.left.value + ',' + button.style.top.value
+  // }
+// }
