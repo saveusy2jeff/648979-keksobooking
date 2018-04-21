@@ -156,23 +156,22 @@ blockMap.insertBefore(cardFragment, blocMapFilters);
 // делаем поля обьявлений неактивными
 var adFieldsetRequest = document.querySelector('.ad-form').querySelectorAll('fieldset');
 for (var fieldsetNumber = 0; fieldsetNumber <= adFieldsetRequest.length - 1; fieldsetNumber++) {
-  adFieldsetRequest[fieldsetNumber].setAttribute('disabled', 'disabled')
-};
+  adFieldsetRequest[fieldsetNumber].setAttribute('disabled', 'disabled');
+}
 var mainPinRequest = document.querySelector('.map__pin--main');
 // начальные координаты
 var MAP_HEIGTH = 750;
 var MAP_WIDTH = 1200;
-var MAP_PIN_WIDTH = 50;
 var MAP_PIN_HEIGTH = 70;
 var currentAddress = document.querySelector('fieldset.ad-form__element--wide input[id=address]');
 var firstCoordinates = {
   x: Math.floor(MAP_WIDTH / 2),
   y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
-}
+};
 currentAddress.textContent = firstCoordinates.x + ', ' + firstCoordinates.y; 
 var activatePage = function () {
   blockMap.classList.remove('map--faded');
-}
+};
 var changeAdress = function () {
   var changeMapCoordinates = {
     x: Math.floor(MAP_WIDTH / 2),
@@ -180,4 +179,11 @@ var changeAdress = function () {
   };
   currentAddress.textContent = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
 };
-mainPinRequest.addEventListener('mouseup', activatePage, changeAdress);
+var activateForm = function () {
+  var adForm = document.querySelector('.ad-form');
+  adForm.classList.remove('ad-form--disabled')
+  for (var fieldsetActiveNumber = 0; fieldsetActiveNumber <= adFieldsetRequest.length - 1; fieldsetActiveNumber++) {
+    adFieldsetRequest[fieldsetActiveNumber].removeAttribute('disabled');
+  }
+};
+mainPinRequest.addEventListener('mouseup', activatePage, changeAdress, activateForm);
