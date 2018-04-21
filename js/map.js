@@ -60,8 +60,6 @@ for (var i = 0; i <= 7; i++) {
 var blockMap = document.querySelector('.map');
 // запрос к месту где должны находиться метки
 var houseOfPins = document.querySelector('.map__pins');
-// убираем класс map-faded
-blockMap.classList.remove('map--faded');
 // запрос к шаблону с разметкой метки
 var templatePin = document.querySelector('template').content.querySelector('.map__pin');
 // создаем функцию для изменения веток
@@ -155,4 +153,31 @@ for (var numberOfObjCard = 0; numberOfObjCard <= mainArr.length - 1; numberOfObj
 }
 // добавляем фрагмент перед блоком.map__filters-container
 blockMap.insertBefore(cardFragment, blocMapFilters);
-
+// делаем поля обьявлений неактивными
+var adFieldsetRequest = document.querySelector('.ad-form').querySelectorAll('fieldset');
+for (var fieldsetNumber = 0; fieldsetNumber <= adFieldsetRequest.length - 1; fieldsetNumber++) {
+  adFieldsetRequest[fieldsetNumber].setAttribute('disabled', 'disabled')
+};
+var mainPinRequest = document.querySelector('.map__pin--main');
+// начальные координаты
+var MAP_HEIGTH = 750;
+var MAP_WIDTH = 1200;
+var MAP_PIN_WIDTH = 50;
+var MAP_PIN_HEIGTH = 70;
+var currentAddress = document.querySelector('fieldset.ad-form__element--wide input[id=address]');
+var firstCoordinates = {
+  x: Math.floor(MAP_WIDTH / 2),
+  y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
+}
+currentAddress.textContent = firstCoordinates.x + ', ' + firstCoordinates.y; 
+var activatePage = function () {
+  blockMap.classList.remove('map--faded');
+}
+var changeAdress = function () {
+  var changeMapCoordinates = {
+    x: Math.floor(MAP_WIDTH / 2),
+    y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
+  };
+  currentAddress.textContent = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
+};
+mainPinRequest.addEventListener('mouseup', activatePage, changeAdress);
