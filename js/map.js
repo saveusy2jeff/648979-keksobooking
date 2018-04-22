@@ -158,9 +158,9 @@ var adFieldsetRequest = document.querySelector('.ad-form').querySelectorAll('fie
 for (var fieldsetNumber = 0; fieldsetNumber <= adFieldsetRequest.length - 1; fieldsetNumber++) {
   adFieldsetRequest[fieldsetNumber].setAttribute('disabled', 'disabled');
 }
-var popupRequest = document.querySelectorAll('map__card')
-for (var popupNumber = 0; popupNumber <= popupRequest.length - 1; popupRequest++) {
-popupRequest[popupNumber].setAttribute('hidden', true);
+var popupRequest = document.querySelectorAll('.map__card')
+for (var popupNumber = 0; popupNumber <= popupRequest.length - 1; popupNumber++) {
+popupRequest[popupNumber].setAttribute('hidden', true)
 }
 var mainPinRequest = document.querySelector('.map__pin--main');
 // начальные координаты
@@ -188,8 +188,19 @@ var activatePage = function () {
   currentAddress.value = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
 };
 mainPinRequest.addEventListener('mouseup', activatePage);
-// var activatePage = function (elementPin) {
-  // elementPin.addEventListener(function(evt)){
-    // currentAddress.value = button.style.left.value + ',' + button.style.top.value
-  // }
-// }
+var allButtons = document.querySelector('.map__pins').querySelectorAll('button');
+for (var numberSelectButton = 1; numberSelectButton <= allButtons.length - 1; numberSelectButton++) {
+  allButtons[numberSelectButton].classList.add('adspin');
+}
+var buttons = document.querySelectorAll('.adspin');
+var activatePinListener = function (activateAddress, activateAd) {
+  activateAddress.addEventListener('click', function () {
+    currentAddress.value = activateAddress.style.left.value + (MAP_PIN_WIDTH / 2) + ', ' + activateAddress.style.top.value + MAP_PIN_HEIGTH;
+    activateAd.removeAttribute('hidden');
+  });
+  };
+  for (var buttonNumber = 0; buttonNumber <= buttons.length - 1; buttonNumber++) {
+    var activateAddress = buttons[buttonNumber];
+    var activateAd = popupRequest[buttonNumber];
+    activatePinListener(activateAddress);
+  }
