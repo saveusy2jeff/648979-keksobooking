@@ -166,8 +166,8 @@ var mainPinRequest = document.querySelector('.map__pin--main');
 // начальные координаты
 var MAP_HEIGTH = 750;
 var MAP_WIDTH = 1200;
-var MAP_PIN_HEIGTH = 70;
-var MAP_PIN_WIDTH = 50;
+var MAP_PIN_HEIGTH = 40;
+var MAP_PIN_WIDTH = 40;
 var currentAddress = document.querySelector('fieldset.ad-form__element--wide input[id=address]');
 var firstCoordinates = {
   x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
