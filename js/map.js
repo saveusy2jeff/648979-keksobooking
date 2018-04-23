@@ -143,7 +143,7 @@ var renderCard = function (dataObj) {
   addFeature(dataObj.offer.features, clonedCard);
   addPhotos(dataObj.offer.photos, clonedCard);
   clonedCard.querySelector('.popup__avatar').src = dataObj.author.avatar;
-  clonedCard.setAttribute('hidden', true)
+  clonedCard.setAttribute('hidden', true);
   return clonedCard;
 };
 // создаем фрагмент для объявлений
@@ -207,7 +207,8 @@ var popupEscHandler = function (evt) {
 };
 var addHiddenAttribute = function () {
   for (var popupNumber = 0; popupNumber <= popupRequest.length; popupNumber ++) {
-    popupRequest.setAttribute('hidden');
+    popupRequest.setAttribute('hidden', true);
+  // clonedCard.setAttribute('hidden', true);
   }
 };
 var popupClose = document.querySelectorAll('.popup__close');
