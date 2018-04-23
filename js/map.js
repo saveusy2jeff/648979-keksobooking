@@ -130,7 +130,6 @@ var addPhotos = function (photoParameter, clonedCard) {
 };
   // создаем функцию для объявлений
 var renderCard = function (dataObj) {
-  // копируем шаблон
   var clonedCard = templateCard.cloneNode(true);
   // вносим изменения в позиции заголовок, адрес, цену, тип жилья, комнаты, гости, время заезда - выезда, удобства, описание, фотки
   clonedCard.querySelector('.popup__title').textContent = dataObj.offer.title;
@@ -144,6 +143,7 @@ var renderCard = function (dataObj) {
   addFeature(dataObj.offer.features, clonedCard);
   addPhotos(dataObj.offer.photos, clonedCard);
   clonedCard.querySelector('.popup__avatar').src = dataObj.author.avatar;
+  clonedCard.setAttribute('hidden', true)
   return clonedCard;
 };
 // создаем фрагмент для объявлений
@@ -158,10 +158,15 @@ var adFieldsetRequest = document.querySelector('.ad-form').querySelectorAll('fie
 for (var fieldsetNumber = 0; fieldsetNumber <= adFieldsetRequest.length - 1; fieldsetNumber++) {
   adFieldsetRequest[fieldsetNumber].setAttribute('disabled', 'disabled');
 }
-var popupRequest = document.querySelectorAll('.map__card');
-for (var popupNumber = 0; popupNumber <= popupRequest.length - 1; popupNumber++) {
- popupRequest[popupNumber].setAttribute('hidden', true);
+var allButtons = document.querySelector('.map__pins').querySelectorAll('button');
+for (var numberSelectButton = 1; numberSelectButton <= allButtons.length - 1; numberSelectButton++) {
+  allButtons[numberSelectButton].classList.add('adspin');
 }
+var buttons = document.querySelectorAll('.adspin');
+for (var adspinNumber = 0; adspinNumber <= buttons.length - 1; adspinNumber++) {
+  buttons[adspinNumber].setAttribute('hidden', true)
+}
+var popupRequest = document.querySelectorAll('.map__card');
 var mainPinRequest = document.querySelector('.map__pin--main');
 // начальные координаты
 var MAP_HEIGTH = 750;
@@ -178,9 +183,15 @@ var activatePage = function () {
   blockMap.classList.remove('map--faded');
   var adForm = document.querySelector('.ad-form');
   adForm.classList.remove('ad-form--disabled');
-  for (var fieldsetActiveNumber = 0; fieldsetActiveNumber <= adFieldsetRequest.length - 1; fieldsetActiveNumber++) {
-    adFieldsetRequest[fieldsetActiveNumber].removeAttribute('disabled');
+  for (var activatorObjectsNumber = 0; activatorObjectsNumber <= adFieldsetRequest.length - 1; activatorObjectsNumber++) {
+    adFieldsetRequest[activatorObjectsNumber].removeAttribute('disabled');
+    buttons[activatorObjectsNumber].removeAttribute('hidden')
   }
+  var hideAds = function (ads) {
+    for (var adNumber = 0; adsNumber <= ads.lenght - 1; adsNumber++) {
+      ads[adsNumber].setAttribute('hidden', true);
+    }
+  };
   var changeMapCoordinates = {
     x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
     y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
@@ -188,19 +199,35 @@ var activatePage = function () {
   currentAddress.value = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
 };
 mainPinRequest.addEventListener('mouseup', activatePage);
-var allButtons = document.querySelector('.map__pins').querySelectorAll('button');
-for (var numberSelectButton = 1; numberSelectButton <= allButtons.length - 1; numberSelectButton++) {
-  allButtons[numberSelectButton].classList.add('adspin');
-}
-var buttons = document.querySelectorAll('.adspin');
-var activatePinListener = function (activateAddress, activateAd) {
-  activateAddress.addEventListener('click', function () {
-    currentAddress.value = activateAddress.style.left.value + (MAP_PIN_WIDTH / 2) + ', ' + activateAddress.style.top.value + MAP_PIN_HEIGTH;
+var ESC_KEYCODE = 27;
+var popupEscHandler = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+};
+var addHiddenAttribute = function () {
+  for (var popupNumber = 0; popupNumber <= popupRequest.length; popupNumber ++) {
+    popupRequest.setAttribute('hidden');
+  }
+};
+var popupClose = document.querySelectorAll('.popup__close');
+var closePopup = function () {
+  addHiddenAttribute ();
+  document.removeEventListener('keydown', popupEscHandler);
+};
+var activatePinListener = function (activateAddress, activateAd, buttonExit) {
+  activateAddress.addEventListener('click', function() {
+    currentAddress.value = (parseInt(activateAddress.style.left, 10) - (MAP_PIN_WIDTH / 2)) + ', ' + (parseInt(activateAddress.style.top, 10) - (MAP_PIN_HEIGTH));
     activateAd.removeAttribute('hidden');
+    document.addEventListener('keydown', popupEscHandler);
+  });
+  buttonExit.addEventListener('click', function() {
+    closePopup();
   });
 };
 for (var buttonNumber = 0; buttonNumber <= buttons.length - 1; buttonNumber++) {
   var activateAddress = buttons[buttonNumber];
   var activateAd = popupRequest[buttonNumber];
-  activatePinListener(activateAddress, activateAd);
-}
+  var buttonExit = popupClose[buttonNumber];
+  activatePinListener(activateAddress, activateAd, buttonExit);
+};
