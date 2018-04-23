@@ -164,7 +164,7 @@ for (var numberSelectButton = 1; numberSelectButton <= allButtons.length - 1; nu
 }
 var buttons = document.querySelectorAll('.adspin');
 for (var adspinNumber = 0; adspinNumber <= buttons.length - 1; adspinNumber++) {
-  buttons[adspinNumber].setAttribute('hidden', true)
+  buttons[adspinNumber].setAttribute('hidden', true);
 }
 var popupRequest = document.querySelectorAll('.map__card');
 var mainPinRequest = document.querySelector('.map__pin--main');
@@ -185,13 +185,8 @@ var activatePage = function () {
   adForm.classList.remove('ad-form--disabled');
   for (var activatorObjectsNumber = 0; activatorObjectsNumber <= adFieldsetRequest.length - 1; activatorObjectsNumber++) {
     adFieldsetRequest[activatorObjectsNumber].removeAttribute('disabled');
-    buttons[activatorObjectsNumber].removeAttribute('hidden')
+    buttons[activatorObjectsNumber].removeAttribute('hidden');
   }
-  var hideAds = function (ads) {
-    for (var adNumber = 0; adsNumber <= ads.lenght - 1; adsNumber++) {
-      ads[adsNumber].setAttribute('hidden', true);
-    }
-  };
   var changeMapCoordinates = {
     x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
     y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
@@ -206,23 +201,23 @@ var popupEscHandler = function (evt) {
   }
 };
 var addHiddenAttribute = function () {
-  for (var popupNumber = 0; popupNumber <= popupRequest.length; popupNumber ++) {
+  for (var popupNumber = 0; popupNumber <= popupRequest.length; popupNumber++) {
     popupRequest.setAttribute('hidden', true);
   // clonedCard.setAttribute('hidden', true);
   }
 };
 var popupClose = document.querySelectorAll('.popup__close');
 var closePopup = function () {
-  addHiddenAttribute ();
+  addHiddenAttribute();
   document.removeEventListener('keydown', popupEscHandler);
 };
 var activatePinListener = function (activateAddress, activateAd, buttonExit) {
-  activateAddress.addEventListener('click', function() {
+  activateAddress.addEventListener('click', function () {
     currentAddress.value = (parseInt(activateAddress.style.left, 10) - (MAP_PIN_WIDTH / 2)) + ', ' + (parseInt(activateAddress.style.top, 10) - (MAP_PIN_HEIGTH));
     activateAd.removeAttribute('hidden');
     document.addEventListener('keydown', popupEscHandler);
   });
-  buttonExit.addEventListener('click', function() {
+  buttonExit.addEventListener('click', function () {
     closePopup();
   });
 };
@@ -231,4 +226,4 @@ for (var buttonNumber = 0; buttonNumber <= buttons.length - 1; buttonNumber++) {
   var activateAd = popupRequest[buttonNumber];
   var buttonExit = popupClose[buttonNumber];
   activatePinListener(activateAddress, activateAd, buttonExit);
-};
+}
