@@ -197,33 +197,30 @@ mainPinRequest.addEventListener('mouseup', activatePage);
 var ESC_KEYCODE = 27;
 var popupEscHandler = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
-  }
-};
-var addHiddenAttribute = function () {
-  for (var popupNumber = 0; popupNumber <= popupRequest.length; popupNumber++) {
-    popupRequest.setAttribute('hidden', true);
-  // clonedCard.setAttribute('hidden', true);
+    closePopup(evt);
   }
 };
 var popupClose = document.querySelectorAll('.popup__close');
-var closePopup = function () {
-  addHiddenAttribute();
-  document.removeEventListener('keydown', popupEscHandler);
+var closePopup = function (evt) {
+  var q = evt.target.parentNode;
+  q.setAttribute('hidden', true);
+  // document.removeEventListener('keydown', popupEscHandler);
 };
-var activatePinListener = function (activateAddress, activateAd, buttonExit) {
+var activatePinListener = function (activateAddress, activateAd) {
   activateAddress.addEventListener('click', function () {
     currentAddress.value = (parseInt(activateAddress.style.left, 10) - (MAP_PIN_WIDTH / 2)) + ', ' + (parseInt(activateAddress.style.top, 10) - (MAP_PIN_HEIGTH));
     activateAd.removeAttribute('hidden');
-    document.addEventListener('keydown', popupEscHandler);
   });
-  buttonExit.addEventListener('click', function () {
-    closePopup();
-  });
-};
-for (var buttonNumber = 0; buttonNumber <= buttons.length - 1; buttonNumber++) {
-  var activateAddress = buttons[buttonNumber];
-  var activateAd = popupRequest[buttonNumber];
+   popupClose.addEventListener('click', function () {
+    closePopup(evt);
+   })
+  }
+    // убрали клавиатуру document.addEventListener('keydown', popupEscHandler)
+//   })
+//   }
+ for (var buttonNumber = 0; buttonNumber <= buttons.length - 1; buttonNumber++) {
+   var activateAddress = buttons[buttonNumber];
+   var activateAd = popupRequest[buttonNumber];
+ }
   var buttonExit = popupClose[buttonNumber];
-  activatePinListener(activateAddress, activateAd, buttonExit);
-}
+activatePinListener(activateAddress, activateAd);
