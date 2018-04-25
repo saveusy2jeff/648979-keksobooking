@@ -183,7 +183,7 @@ var activatePage = function () {
     adFieldsetRequest[activatorObjectsNumber].removeAttribute('disabled');
   }
   for (var buttonsNumber = 0; buttonsNumber < buttons.length; buttonsNumber++) {
-    buttons[buttonsNumber].removeAttribute('hidden')
+    buttons[buttonsNumber].removeAttribute('hidden');
   }
   var changeMapCoordinates = {
     x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
@@ -194,7 +194,7 @@ var activatePage = function () {
 mainPinRequest.addEventListener('mouseup', activatePage);
 var ESC_KEYCODE = 27;
 var popupClose = document.querySelectorAll('.popup__close');
-var closePopup = function (evt, activateAd) {
+var closePopup = function (evt) {
   var exitAd = evt.target.parentNode;
   exitAd.setAttribute('hidden', true);
 };
@@ -202,25 +202,24 @@ var notHiddenCard;
 var activatePinListener = function (activateAddress, activateAd, buttonExit) {
   activateAddress.addEventListener('click', function () {
     notHiddenCard = document.querySelector('.map__card:not([hidden])');
-    if (notHiddenCard != null) {
+    if (notHiddenCard !== null) {
       notHiddenCard.setAttribute('hidden', true);
     }
     currentAddress.value = (parseInt(activateAddress.style.left, 10) - (MAP_PIN_WIDTH / 2)) + ', ' + (parseInt(activateAddress.style.top, 10) - (MAP_PIN_HEIGTH));
     activateAd.removeAttribute('hidden');
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
-        activateAd.setAttribute('hidden', true)
+        activateAd.setAttribute('hidden', true);
       }
     });
   });
   buttonExit.addEventListener('click', function (evt) {
     closePopup(evt);
-   })
-  }
- for (var buttonNumber = 0; buttonNumber < buttons.length; buttonNumber++) {
-   var activateAddress = buttons[buttonNumber];
-   var activateAd = popupRequest[buttonNumber];
-   var buttonExit = popupClose[buttonNumber];
-   activatePinListener(activateAddress, activateAd, buttonExit);
- }
- 
+  })
+};
+for (var buttonNumber = 0; buttonNumber < buttons.length; buttonNumber++) {
+  var activateAddress = buttons[buttonNumber];
+  var activateAd = popupRequest[buttonNumber];
+  var buttonExit = popupClose[buttonNumber];
+  activatePinListener(activateAddress, activateAd, buttonExit);
+}
