@@ -19,7 +19,7 @@ var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-for (var i = 0; i <= 7; i++) {
+for (var i = 0; i < typeOfApartaments.length; i++) {
   var _location = {
     x: makeRandomNumber(300, 900),
     y: makeRandomNumber(150, 500)
@@ -27,7 +27,7 @@ for (var i = 0; i <= 7; i++) {
   var randomLengthFeatures = function (array) {
     var arrayFeatures = [];
     var amountFeatures = makeRandomNumber(MIN_FEATURES, MAX_FEATURES);
-    for (var featuresNumber = 0; featuresNumber <= amountFeatures - 1; featuresNumber++) {
+    for (var featuresNumber = 0; featuresNumber < amountFeatures; featuresNumber++) {
       arrayFeatures.push(array[featuresNumber]);
     }
     return arrayFeatures;
@@ -76,7 +76,7 @@ var renderPin = function (dataObj) {
 // создаем фрагмент
 var fragment = document.createDocumentFragment();
 // далее в цикле
-for (var numberOfObj = 0; numberOfObj <= mainArr.length - 1; numberOfObj++) {
+for (var numberOfObj = 0; numberOfObj < mainArr.length; numberOfObj++) {
   // добавляем метки в дом для пинс
   fragment.appendChild(renderPin(mainArr[numberOfObj]));
 }
@@ -109,7 +109,7 @@ var addFeature = function (amenities, clonedCard) {
   while (requestFeature.firstChild) {
     requestFeature.removeChild(requestFeature.firstChild);
   }
-  for (var numberFeature = 0; numberFeature <= amenities.length - 1; numberFeature++) {
+  for (var numberFeature = 0; numberFeature < amenities.length; numberFeature++) {
     var clonedFeature = featureTemplate.cloneNode(true);
     clonedFeature.className = 'popup__feature popup__feature--' + amenities[numberFeature];
     requestFeature.appendChild(clonedFeature);
@@ -120,7 +120,7 @@ var addFeature = function (amenities, clonedCard) {
 var addPhotos = function (photoParameter, clonedCard) {
   var photosList = clonedCard.querySelector('.popup__photos');
   var photo = photosList.querySelector('img');
-  for (var numberPhoto = 0; numberPhoto <= photoParameter.length - 1; numberPhoto++) {
+  for (var numberPhoto = 0; numberPhoto < photoParameter.length; numberPhoto++) {
     var photoItem = photo.cloneNode(true);
     photoItem.src = photoParameter[numberPhoto];
     photosList.appendChild(photoItem);
@@ -148,21 +148,17 @@ var renderCard = function (dataObj) {
 };
 // создаем фрагмент для объявлений
 var cardFragment = document.createDocumentFragment();
-for (var numberOfObjCard = 0; numberOfObjCard <= mainArr.length - 1; numberOfObjCard++) {
+for (var numberOfObjCard = 0; numberOfObjCard < mainArr.length; numberOfObjCard++) {
   cardFragment.appendChild(renderCard(mainArr[numberOfObjCard]));
 }
 // добавляем фрагмент перед блоком.map__filters-container
 blockMap.insertBefore(cardFragment, blocMapFilters);
 // делаем поля обьявлений неактивными
 var adFieldsetRequest = document.querySelector('.ad-form').querySelectorAll('fieldset');
-for (var fieldsetNumber = 0; fieldsetNumber <= adFieldsetRequest.length - 1; fieldsetNumber++) {
+for (var fieldsetNumber = 0; fieldsetNumber < adFieldsetRequest.length; fieldsetNumber++) {
   adFieldsetRequest[fieldsetNumber].setAttribute('disabled', 'disabled');
 }
-var allButtons = document.querySelector('.map__pins').querySelectorAll('button');
-for (var numberSelectButton = 1; numberSelectButton <= allButtons.length - 1; numberSelectButton++) {
-  allButtons[numberSelectButton].classList.add('adspin');
-}
-var buttons = document.querySelectorAll('.adspin');
+var buttons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 for (var adspinNumber = 0; adspinNumber <= buttons.length - 1; adspinNumber++) {
   buttons[adspinNumber].setAttribute('hidden', true);
 }
@@ -183,9 +179,11 @@ var activatePage = function () {
   blockMap.classList.remove('map--faded');
   var adForm = document.querySelector('.ad-form');
   adForm.classList.remove('ad-form--disabled');
-  for (var activatorObjectsNumber = 0; activatorObjectsNumber <= adFieldsetRequest.length - 1; activatorObjectsNumber++) {
+  for (var activatorObjectsNumber = 0; activatorObjectsNumber < adFieldsetRequest.length; activatorObjectsNumber++) {
     adFieldsetRequest[activatorObjectsNumber].removeAttribute('disabled');
-    buttons[activatorObjectsNumber].removeAttribute('hidden');
+  }
+  for (var buttonsNumber = 0; buttonsNumber < buttons.length; buttonsNumber++) {
+    buttons[buttonsNumber].removeAttribute('hidden')
   }
   var changeMapCoordinates = {
     x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
@@ -195,32 +193,34 @@ var activatePage = function () {
 };
 mainPinRequest.addEventListener('mouseup', activatePage);
 var ESC_KEYCODE = 27;
-var popupEscHandler = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    closePopup(evt);
-  }
-};
 var popupClose = document.querySelectorAll('.popup__close');
-var closePopup = function (evt) {
-  var q = evt.target.parentNode;
-  q.setAttribute('hidden', true);
-  // document.removeEventListener('keydown', popupEscHandler);
+var closePopup = function (evt, activateAd) {
+  var exitAd = evt.target.parentNode;
+  exitAd.setAttribute('hidden', true);
 };
-var activatePinListener = function (activateAddress, activateAd) {
+var notHiddenCard;
+var activatePinListener = function (activateAddress, activateAd, buttonExit) {
   activateAddress.addEventListener('click', function () {
+    notHiddenCard = document.querySelector('.map__card:not([hidden])');
+    if (notHiddenCard != null) {
+      notHiddenCard.setAttribute('hidden', true);
+    }
     currentAddress.value = (parseInt(activateAddress.style.left, 10) - (MAP_PIN_WIDTH / 2)) + ', ' + (parseInt(activateAddress.style.top, 10) - (MAP_PIN_HEIGTH));
     activateAd.removeAttribute('hidden');
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        activateAd.setAttribute('hidden', true)
+      }
+    });
   });
-   popupClose.addEventListener('click', function () {
+  buttonExit.addEventListener('click', function (evt) {
     closePopup(evt);
    })
   }
-    // убрали клавиатуру document.addEventListener('keydown', popupEscHandler)
-//   })
-//   }
- for (var buttonNumber = 0; buttonNumber <= buttons.length - 1; buttonNumber++) {
+ for (var buttonNumber = 0; buttonNumber < buttons.length; buttonNumber++) {
    var activateAddress = buttons[buttonNumber];
    var activateAd = popupRequest[buttonNumber];
+   var buttonExit = popupClose[buttonNumber];
+   activatePinListener(activateAddress, activateAd, buttonExit);
  }
-  var buttonExit = popupClose[buttonNumber];
-activatePinListener(activateAddress, activateAd);
+ 
