@@ -215,7 +215,7 @@ var activatePinListener = function (activateAddress, activateAd, buttonExit) {
   });
   buttonExit.addEventListener('click', function (evt) {
     closePopup(evt);
-  })
+  });
 };
 for (var buttonNumber = 0; buttonNumber < buttons.length; buttonNumber++) {
   var activateAddress = buttons[buttonNumber];
