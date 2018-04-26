@@ -19,7 +19,7 @@ var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-for (var i = 0; i <= 7; i++) {
+for (var i = 0; i < typeOfApartaments.length; i++) {
   var _location = {
     x: makeRandomNumber(300, 900),
     y: makeRandomNumber(150, 500)
@@ -27,7 +27,7 @@ for (var i = 0; i <= 7; i++) {
   var randomLengthFeatures = function (array) {
     var arrayFeatures = [];
     var amountFeatures = makeRandomNumber(MIN_FEATURES, MAX_FEATURES);
-    for (var featuresNumber = 0; featuresNumber <= amountFeatures - 1; featuresNumber++) {
+    for (var featuresNumber = 0; featuresNumber < amountFeatures; featuresNumber++) {
       arrayFeatures.push(array[featuresNumber]);
     }
     return arrayFeatures;
@@ -60,8 +60,6 @@ for (var i = 0; i <= 7; i++) {
 var blockMap = document.querySelector('.map');
 // запрос к месту где должны находиться метки
 var houseOfPins = document.querySelector('.map__pins');
-// убираем класс map-faded
-blockMap.classList.remove('map--faded');
 // запрос к шаблону с разметкой метки
 var templatePin = document.querySelector('template').content.querySelector('.map__pin');
 // создаем функцию для изменения веток
@@ -78,7 +76,7 @@ var renderPin = function (dataObj) {
 // создаем фрагмент
 var fragment = document.createDocumentFragment();
 // далее в цикле
-for (var numberOfObj = 0; numberOfObj <= mainArr.length - 1; numberOfObj++) {
+for (var numberOfObj = 0; numberOfObj < mainArr.length; numberOfObj++) {
   // добавляем метки в дом для пинс
   fragment.appendChild(renderPin(mainArr[numberOfObj]));
 }
@@ -111,7 +109,7 @@ var addFeature = function (amenities, clonedCard) {
   while (requestFeature.firstChild) {
     requestFeature.removeChild(requestFeature.firstChild);
   }
-  for (var numberFeature = 0; numberFeature <= amenities.length - 1; numberFeature++) {
+  for (var numberFeature = 0; numberFeature < amenities.length; numberFeature++) {
     var clonedFeature = featureTemplate.cloneNode(true);
     clonedFeature.className = 'popup__feature popup__feature--' + amenities[numberFeature];
     requestFeature.appendChild(clonedFeature);
@@ -122,7 +120,7 @@ var addFeature = function (amenities, clonedCard) {
 var addPhotos = function (photoParameter, clonedCard) {
   var photosList = clonedCard.querySelector('.popup__photos');
   var photo = photosList.querySelector('img');
-  for (var numberPhoto = 0; numberPhoto <= photoParameter.length - 1; numberPhoto++) {
+  for (var numberPhoto = 0; numberPhoto < photoParameter.length; numberPhoto++) {
     var photoItem = photo.cloneNode(true);
     photoItem.src = photoParameter[numberPhoto];
     photosList.appendChild(photoItem);
@@ -132,7 +130,6 @@ var addPhotos = function (photoParameter, clonedCard) {
 };
   // создаем функцию для объявлений
 var renderCard = function (dataObj) {
-  // копируем шаблон
   var clonedCard = templateCard.cloneNode(true);
   // вносим изменения в позиции заголовок, адрес, цену, тип жилья, комнаты, гости, время заезда - выезда, удобства, описание, фотки
   clonedCard.querySelector('.popup__title').textContent = dataObj.offer.title;
@@ -146,13 +143,83 @@ var renderCard = function (dataObj) {
   addFeature(dataObj.offer.features, clonedCard);
   addPhotos(dataObj.offer.photos, clonedCard);
   clonedCard.querySelector('.popup__avatar').src = dataObj.author.avatar;
+  clonedCard.setAttribute('hidden', true);
   return clonedCard;
 };
 // создаем фрагмент для объявлений
 var cardFragment = document.createDocumentFragment();
-for (var numberOfObjCard = 0; numberOfObjCard <= mainArr.length - 1; numberOfObjCard++) {
+for (var numberOfObjCard = 0; numberOfObjCard < mainArr.length; numberOfObjCard++) {
   cardFragment.appendChild(renderCard(mainArr[numberOfObjCard]));
 }
 // добавляем фрагмент перед блоком.map__filters-container
 blockMap.insertBefore(cardFragment, blocMapFilters);
-
+// делаем поля обьявлений неактивными
+var adFieldsetRequest = document.querySelector('.ad-form').querySelectorAll('fieldset');
+for (var fieldsetNumber = 0; fieldsetNumber < adFieldsetRequest.length; fieldsetNumber++) {
+  adFieldsetRequest[fieldsetNumber].setAttribute('disabled', 'disabled');
+}
+var buttons = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+for (var adspinNumber = 0; adspinNumber <= buttons.length - 1; adspinNumber++) {
+  buttons[adspinNumber].setAttribute('hidden', true);
+}
+var popupRequest = document.querySelectorAll('.map__card');
+var mainPinRequest = document.querySelector('.map__pin--main');
+// начальные координаты
+var MAP_HEIGTH = 750;
+var MAP_WIDTH = 1200;
+var MAP_PIN_HEIGTH = 40;
+var MAP_PIN_WIDTH = 40;
+var currentAddress = document.querySelector('fieldset.ad-form__element--wide input[id=address]');
+var firstCoordinates = {
+  x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
+  y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
+};
+currentAddress.value = firstCoordinates.x + ', ' + firstCoordinates.y;
+var activatePage = function () {
+  blockMap.classList.remove('map--faded');
+  var adForm = document.querySelector('.ad-form');
+  adForm.classList.remove('ad-form--disabled');
+  for (var activatorObjectsNumber = 0; activatorObjectsNumber < adFieldsetRequest.length; activatorObjectsNumber++) {
+    adFieldsetRequest[activatorObjectsNumber].removeAttribute('disabled');
+  }
+  for (var buttonsNumber = 0; buttonsNumber < buttons.length; buttonsNumber++) {
+    buttons[buttonsNumber].removeAttribute('hidden');
+  }
+  var changeMapCoordinates = {
+    x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
+    y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
+  };
+  currentAddress.value = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
+};
+mainPinRequest.addEventListener('mouseup', activatePage);
+var ESC_KEYCODE = 27;
+var popupClose = document.querySelectorAll('.popup__close');
+var closePopup = function (evt) {
+  var exitAd = evt.target.parentNode;
+  exitAd.setAttribute('hidden', true);
+};
+var notHiddenCard;
+var activatePinListener = function (activateAddress, activateAd, buttonExit) {
+  activateAddress.addEventListener('click', function () {
+    notHiddenCard = document.querySelector('.map__card:not([hidden])');
+    if (notHiddenCard !== null) {
+      notHiddenCard.setAttribute('hidden', true);
+    }
+    currentAddress.value = (parseInt(activateAddress.style.left, 10) - (MAP_PIN_WIDTH / 2)) + ', ' + (parseInt(activateAddress.style.top, 10) - (MAP_PIN_HEIGTH));
+    activateAd.removeAttribute('hidden');
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        activateAd.setAttribute('hidden', true);
+      }
+    });
+  });
+  buttonExit.addEventListener('click', function (evt) {
+    closePopup(evt);
+  });
+};
+for (var buttonNumber = 0; buttonNumber < buttons.length; buttonNumber++) {
+  var activateAddress = buttons[buttonNumber];
+  var activateAd = popupRequest[buttonNumber];
+  var buttonExit = popupClose[buttonNumber];
+  activatePinListener(activateAddress, activateAd, buttonExit);
+}
