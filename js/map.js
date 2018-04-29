@@ -224,7 +224,7 @@ for (var buttonNumber = 0; buttonNumber < buttons.length; buttonNumber++) {
   onActivateAddressClick(activateAddress, activateAd, buttonExit);
 }
 
- //
+//
 
 var formType = document.querySelector('#type');
 var formMinPrice = {
@@ -233,7 +233,6 @@ var formMinPrice = {
   'house': 5000,
   'palace': 10000
 };
-var formPrice = document.querySelector('#price');
 var formTimeIn = document.querySelector('#timein');
 var formTimeOut = document.querySelector('#timeout');
 var formRooms = document.querySelector('#room_number');
@@ -248,27 +247,28 @@ var rulesForGuests = {
 var onFormTimeInTimeOutChange = function (time1, time2) {
   time1.addEventListener('change', function (evt) {
     time2.value = evt.target.value;
-      })
-  time2.addEventListener('change', function(evt) {
+  });
+  time2.addEventListener('change', function (evt) {
     time1.value = evt.target.value;
-  })
-}
+  });
+};
 var setMinPrice = function () {
-  var price = document.querySelector('#price');
-  price.min = formMinPrice[formType.value];
-  price.placeholder = formMinPrice[formType.value];
-  return price
+  var formPrice = document.querySelector('#price');
+  formPrice.min = formMinPrice[formType.value];
+  formPrice.placeholder = formMinPrice[formType.value];
+  return formPrice;
 };
 var syncNumberRoomsandGuests = function () {
-  var roomNumber = formRooms.value
-  var currentCapacity = formCapacity.value
+  var roomNumber = formRooms.value;
+  var currentCapacity = formCapacity.value;
   var checkRulesCapacity = rulesForGuests[roomNumber];
-  if (checkRulesCapacity.includes(currentCapacity)) {
-    formCapacity.setCustomValidity('')
+  if (checkRulesCapacity.includes(currentCapacity)) 
+  {
+    formCapacity.setCustomValidity('');
   }
   else {
-    formCapacity.setCustomValidity('Выбранное значение количества гостей не подходит под количество комнат!')
-  }
+    formCapacity.setCustomValidity('Выбранное значение количества гостей не подходит под количество комнат!');
+  };
 }
 onFormTimeInTimeOutChange(formTimeIn, formTimeOut);
 formType.addEventListener('change', setMinPrice);
