@@ -262,14 +262,13 @@ var syncNumberRoomsandGuests = function () {
   var roomNumber = formRooms.value;
   var currentCapacity = formCapacity.value;
   var checkRulesCapacity = rulesForGuests[roomNumber];
-  if (checkRulesCapacity.includes(currentCapacity)) 
-  {
+  if (checkRulesCapacity.includes(currentCapacity)){
     formCapacity.setCustomValidity('');
   }
   else {
     formCapacity.setCustomValidity('Выбранное значение количества гостей не подходит под количество комнат!');
-  };
-}
+  }
+};
 onFormTimeInTimeOutChange(formTimeIn, formTimeOut);
 formType.addEventListener('change', setMinPrice);
 formRooms.addEventListener('change', syncNumberRoomsandGuests);
