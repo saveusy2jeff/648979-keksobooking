@@ -223,6 +223,69 @@ for (var buttonNumber = 0; buttonNumber < buttons.length; buttonNumber++) {
   var buttonExit = popupClose[buttonNumber];
   onActivateAddressClick(activateAddress, activateAd, buttonExit);
 }
+var MIN_MAP_X = MAP_PIN_WIDTH / 2;
+var MIN_MAP_Y = MAP_PIN_HEIGTH;
+var MAX_MAP_X = MAP_WIDTH - MAP_PIN_WIDTH / 2;
+var MAX_MAP_Y = MAP_HEIGTH - MAP_PIN_HEIGTH;
+var limitMapX = function (min, max, coord) {
+  if (coord >= min && coord <= max) {
+    mainPinRequest.style.left = coord + 'px';
+  } if (coord < min) {
+    mainPinRequest.style.left = min + 'px';
+  } if (coord > max) {
+    mainPinRequest.style.left = max + 'px';
+  }
+};
+var limitMapY = function (min, max, coord) {
+  if (coord >= min && coord <= max) {
+    mainPinRequest.style.top = coord + 'px';
+  } if (coord < min) {
+    mainPinRequest.style.top = min + 'px';
+  } if (coord > max) {
+    mainPinRequest.style.top = max + 'px';
+  }
+}
+mainPinRequest.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+  
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+  notHiddenCard = document.querySelector('.map__card:not([hidden])')
+  if (notHiddenCard !== null) {
+    notHiddenCard.setAttribute('hidden', true);
+  }
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+    limitMapX(MIN_MAP_X, MAX_MAP_X, (mainPinRequest.offsetLeft - shift.x))
+    limitMapY(MIN_MAP_Y, MAX_MAP_Y, (mainPinRequest.offsetLeft - shift.y))
+    mainPinRequest.style.top = (mainPinRequest.offsetTop - shift.y) + 'px';
+    mainPinRequest.style.left = (mainPinRequest.offsetLeft - shift.x) + 'px';
+    currentAddress.value = (parseInt(mainPinRequest.style.left, 10) + MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mainPinRequest.style.top, 10) + MAP_PIN_HEIGTH)
+  };
+  var onMouseUp = function (moveEvt) {
+    moveEvt.preventDefault();
+    startCoords = {
+    x: moveEvt.clientX,
+    y: moveEvt.clientY
+    }
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+  };
+  currentAddress.value = (parseInt(mainPinRequest.style.left, 10) + MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mainPinRequest.style.top, 10) + MAP_PIN_HEIGTH)
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
 
 //
 
