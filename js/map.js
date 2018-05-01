@@ -169,6 +169,7 @@ var MAP_HEIGTH = 750;
 var MAP_WIDTH = 1200;
 var MAP_PIN_HEIGTH = 40;
 var MAP_PIN_WIDTH = 40;
+var MAP_MAIN_PIN_HEIGTH = 44;
 var currentAddress = document.querySelector('fieldset.ad-form__element--wide input[id=address]');
 var firstCoordinates = {
   x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
@@ -187,7 +188,7 @@ var activatePage = function () {
   }
   var changeMapCoordinates = {
     x: Math.floor(MAP_WIDTH / 2 + MAP_PIN_WIDTH / 2),
-    y: Math.floor(MAP_HEIGTH / 2 + MAP_PIN_HEIGTH)
+    y: Math.floor(MAP_HEIGTH / 2 + MAP_MAIN_PIN_HEIGTH)
   };
   currentAddress.value = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
 };
@@ -205,7 +206,8 @@ var onActivateAddressClick = function (activateAddress, activateAd, buttonExit) 
     if (notHiddenCard !== null) {
       notHiddenCard.setAttribute('hidden', true);
     }
-    currentAddress.value = (parseInt(activateAddress.style.left, 10) - (MAP_PIN_WIDTH / 2)) + ', ' + (parseInt(activateAddress.style.top, 10) - (MAP_PIN_HEIGTH));
+    currentAddress.value = (parseInt(activateAddress.style.left, 10) + (MAP_PIN_WIDTH / 2)) + ', ' + (parseInt(activateAddress.style.top, 10) + (MAP_PIN_HEIGTH));
+    // currentAddress.value = (parseInt(activateAddress.style.left, 10))+ ', ' + (parseInt(activateAddress.style.top, 10));
     activateAd.removeAttribute('hidden');
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ESC_KEYCODE) {
@@ -223,16 +225,16 @@ for (var buttonNumber = 0; buttonNumber < buttons.length; buttonNumber++) {
   var buttonExit = popupClose[buttonNumber];
   onActivateAddressClick(activateAddress, activateAd, buttonExit);
 }
-var MIN_MAP_X = MAP_PIN_WIDTH / 2;
-var MIN_MAP_Y = MAP_PIN_HEIGTH;
-var MAX_MAP_X = MAP_WIDTH - MAP_PIN_WIDTH / 2;
-var MAX_MAP_Y = MAP_HEIGTH - MAP_PIN_HEIGTH;
+var MIN_MAP_X = 0;
+var MIN_MAP_Y = 150 - MAP_MAIN_PIN_HEIGTH ;
+var MAX_MAP_X = MAP_WIDTH - MAP_PIN_WIDTH;
+var MAX_MAP_Y = 500 - MAP_MAIN_PIN_HEIGTH;
 var limitMapX = function (min, max, coord) {
   if (coord >= min && coord <= max) {
     mainPinRequest.style.left = coord + 'px';
-  } if (coord < min) {
+  } else if (coord < min) {
     mainPinRequest.style.left = min + 'px';
-  } if (coord > max) {
+  } else if (coord > max) {
     mainPinRequest.style.left = max + 'px';
   }
 };
@@ -266,10 +268,11 @@ mainPinRequest.addEventListener('mousedown', function (evt) {
       y: moveEvt.clientY
     };
     limitMapX(MIN_MAP_X, MAX_MAP_X, (mainPinRequest.offsetLeft - shift.x));
-    limitMapY(MIN_MAP_Y, MAX_MAP_Y, (mainPinRequest.offsetLeft - shift.y));
-    mainPinRequest.style.top = (mainPinRequest.offsetTop - shift.y) + 'px';
-    mainPinRequest.style.left = (mainPinRequest.offsetLeft - shift.x) + 'px';
-    currentAddress.value = (parseInt(mainPinRequest.style.left, 10) + MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mainPinRequest.style.top, 10) + MAP_PIN_HEIGTH);
+    limitMapY(MIN_MAP_Y, MAX_MAP_Y, (mainPinRequest.offsetTop - shift.y));
+    mainPinRequest.style.top = (mainPinRequest.offsetTop) + 'px';
+    mainPinRequest.style.left = (mainPinRequest.offsetLeft) + 'px';
+    currentAddress.value = (parseInt(mainPinRequest.style.left, 10) + MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mainPinRequest.style.top, 10) + MAP_MAIN_PIN_HEIGTH);
+    // currentAddress.value = (parseInt(mainPinRequest.style.left, 10)) + ', ' + (parseInt(mainPinRequest.style.top, 10));
   };
   var onMouseUp = function (moveEvt) {
     moveEvt.preventDefault();
@@ -279,8 +282,9 @@ mainPinRequest.addEventListener('mousedown', function (evt) {
     };
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
+    currentAddress.value = (parseInt(mainPinRequest.style.left, 10) + MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mainPinRequest.style.top, 10) + MAP_MAIN_PIN_HEIGTH);
   };
-  currentAddress.value = (parseInt(mainPinRequest.style.left, 10) + MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mainPinRequest.style.top, 10) + MAP_PIN_HEIGTH);
+  // currentAddress.value = (parseInt(mainPinRequest.style.left, 10) + MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mainPinRequest.style.top, 10) + MAP_MAIN_PIN_HEIGTH);
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
 });
