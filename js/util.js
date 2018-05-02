@@ -1,11 +1,10 @@
 'use strict';
 // Файл util.js
 (function () {
-  windows.mainArr = [];
-  windows.blockMap = document.querySelector('.map');
-  windows.mainPinRequest = document.querySelector('.map__pin--main');
-  windows.currentAddress = document.querySelector('fieldset.ad-form__element--wide input[id=address]');
-  windows.notHiddenCard;
+  window.blockMap = document.querySelector('.map');
+  window.mainPinRequest = document.querySelector('.map__pin--main');
+  window.currentAddress = document.querySelector('fieldset.ad-form__element--wide input[id=address]');
+  window.notHiddenCard;
   //
   var makeRandomNumber = function (min, max) {
     var rand = min + Math.random() * (max + 1 - min);
@@ -33,6 +32,7 @@
     MAP_MAIN_PIN_HEIGHT: 65,
     MAP_MAIN_PIN_WIDTH: 65,
     makeMainArr: function () {
+      window.mainArr = []
       for (var i = 0; i < typeOfApartaments.length; i++) {
         var _location = {
           x: makeRandomNumber(300, 900),
@@ -68,9 +68,10 @@
             y: _location.y
           }
         };
-        windows.mainArr.push(Data);
+        mainArr.push(Data);
       }
     }
   };
+  window.util.makeMainArr()
 }
 )();

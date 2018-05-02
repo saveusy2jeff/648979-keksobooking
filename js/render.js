@@ -19,9 +19,9 @@
   // создаем фрагмент
   var fragment = document.createDocumentFragment();
   // далее в цикле
-  for (var numberOfObj = 0; numberOfObj < windows.mainArr.length; numberOfObj++) {
+  for (var numberOfObj = 0; numberOfObj < window.mainArr.length; numberOfObj++) {
   // добавляем метки в дом для пинс
-    fragment.appendChild(renderPin(windows.mainArr[numberOfObj]));
+    fragment.appendChild(renderPin(window.mainArr[numberOfObj]));
   }
   // добавляем фрагмент в map__pins
   houseOfPins.appendChild(fragment);
@@ -91,9 +91,9 @@
   };
   // создаем фрагмент для объявлений
   var cardFragment = document.createDocumentFragment();
-  for (var numberOfObjCard = 0; numberOfObjCard < windows.mainArr.length; numberOfObjCard++) {
-    cardFragment.appendChild(renderCard(windows.mainArr[numberOfObjCard]));
+  for (var numberOfObjCard = 0; numberOfObjCard < window.mainArr.length; numberOfObjCard++) {
+    cardFragment.appendChild(renderCard(window.mainArr[numberOfObjCard]));
   }
   // добавляем фрагмент перед блоком.map__filters-container
-  windows.blockMap.insertBefore(cardFragment, blocMapFilters);
+  window.blockMap.insertBefore(cardFragment, blocMapFilters);
 })();

@@ -42,6 +42,8 @@
       formCapacity.setCustomValidity('Выбранное значение количества гостей не подходит под количество комнат!');
     }
   };
+  setMinPrice()
+  syncNumberRoomsandGuests()
   onFormTimeInTimeOutChange(formTimeIn, formTimeOut);
   formType.addEventListener('change', setMinPrice);
   formRooms.addEventListener('change', syncNumberRoomsandGuests);

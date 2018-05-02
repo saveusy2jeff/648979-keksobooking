@@ -17,9 +17,9 @@
     x: Math.floor(window.util.MAP_WIDTH / 2),
     y: Math.floor(MAP_HEIGHT / 2 + window.util.MAP_MAIN_PIN_HEIGHT)
   };
-  windows.currentAddress.value = firstCoordinates.x + ', ' + firstCoordinates.y;
+  window.currentAddress.value = firstCoordinates.x + ', ' + firstCoordinates.y;
   var activatePage = function () {
-    windows.blockMap.classList.remove('map--faded');
+    window.blockMap.classList.remove('map--faded');
     var adForm = document.querySelector('.ad-form');
     adForm.classList.remove('ad-form--disabled');
     for (var activatorObjectsNumber = 0; activatorObjectsNumber < adFieldsetRequest.length; activatorObjectsNumber++) {
@@ -32,9 +32,9 @@
       x: Math.floor(window.util.MAP_WIDTH / 2),
       y: Math.floor(MAP_HEIGHT / 2 + window.util.MAP_MAIN_PIN_HEIGHT)
     };
-    windows.currentAddress.value = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
+    window.currentAddress.value = changeMapCoordinates.x + ', ' + changeMapCoordinates.y;
   };
-  windows.mainPinRequest.addEventListener('mouseup', activatePage);
+  window.mainPinRequest.addEventListener('mouseup', activatePage);
   var ESC_KEYCODE = 27;
   var popupClose = document.querySelectorAll('.popup__close');
   var closePopup = function (evt) {
@@ -43,11 +43,11 @@
   };
   var onActivateAddressClick = function (activateAddress, activateAd, buttonExit) {
     activateAddress.addEventListener('click', function () {
-      windows.notHiddenCard = document.querySelector('.map__card:not([hidden])');
-      if (windows.notHiddenCard !== null) {
-        windows.notHiddenCard.setAttribute('hidden', true);
+      window.notHiddenCard = document.querySelector('.map__card:not([hidden])');
+      if (window.notHiddenCard !== null) {
+        window.notHiddenCard.setAttribute('hidden', true);
       }
-      windows.currentAddress.value = Math.floor((parseInt(activateAddress.style.left, 10) + (window.util.MAP_PIN_WIDTH / 2))) + ', ' + Math.floor((parseInt(activateAddress.style.top, 10) + (window.util.MAP_PIN_HEIGHT)));
+      window.currentAddress.value = Math.floor((parseInt(activateAddress.style.left, 10) + (window.util.MAP_PIN_WIDTH / 2))) + ', ' + Math.floor((parseInt(activateAddress.style.top, 10) + (window.util.MAP_PIN_HEIGHT)));
       // currentAddress.value = (parseInt(activateAddress.style.left, 10))+ ', ' + (parseInt(activateAddress.style.top, 10));
       activateAd.removeAttribute('hidden');
       document.addEventListener('keydown', function (evt) {
