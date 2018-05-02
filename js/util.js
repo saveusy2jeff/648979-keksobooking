@@ -32,7 +32,7 @@
     MAP_MAIN_PIN_HEIGHT: 65,
     MAP_MAIN_PIN_WIDTH: 65,
     makeMainArr: function () {
-      window.mainArr = []
+      window.mainArr = [];
       for (var i = 0; i < typeOfApartaments.length; i++) {
         var _location = {
           x: makeRandomNumber(300, 900),
@@ -68,10 +68,10 @@
             y: _location.y
           }
         };
-        mainArr.push(Data);
+        window.mainArr.push(Data);
       }
     }
   };
-  window.util.makeMainArr()
+  window.util.makeMainArr();
 }
 )();

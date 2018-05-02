@@ -36,8 +36,8 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
       var shift = {
-          x: startCoords.x - moveEvt.clientX,
-          y: startCoords.y - moveEvt.clientY
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
       };
       startCoords = {
         x: moveEvt.clientX,
@@ -52,8 +52,8 @@
     var onMouseUp = function (moveEvt) {
       moveEvt.preventDefault();
       startCoords = {
-          x: moveEvt.clientX,
-          y: moveEvt.clientY
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
       };
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
