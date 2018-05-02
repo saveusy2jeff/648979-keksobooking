@@ -11,7 +11,7 @@
     buttons[adspinNumber].setAttribute('hidden', true);
   }
   var popupRequest = document.querySelectorAll('.map__card');
-// начальные координаты
+  // начальные координаты
   var MAP_HEIGHT = 750;
   var firstCoordinates = {
     x: Math.floor(window.util.MAP_WIDTH / 2),
@@ -48,7 +48,7 @@
         windows.notHiddenCard.setAttribute('hidden', true);
       }
       windows.currentAddress.value = Math.floor((parseInt(activateAddress.style.left, 10) + (window.util.MAP_PIN_WIDTH / 2))) + ', ' + Math.floor((parseInt(activateAddress.style.top, 10) + (window.util.MAP_PIN_HEIGHT)));
-    // currentAddress.value = (parseInt(activateAddress.style.left, 10))+ ', ' + (parseInt(activateAddress.style.top, 10));
+      // currentAddress.value = (parseInt(activateAddress.style.left, 10))+ ', ' + (parseInt(activateAddress.style.top, 10));
       activateAd.removeAttribute('hidden');
       document.addEventListener('keydown', function (evt) {
         if (evt.keyCode === ESC_KEYCODE) {

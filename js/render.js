@@ -3,33 +3,33 @@
 (function () {
 // запрос к месту где должны находиться метки
   var houseOfPins = document.querySelector('.map__pins');
-// запрос к шаблону с разметкой метки
+  // запрос к шаблону с разметкой метки
   var templatePin = document.querySelector('template').content.querySelector('.map__pin');
-// создаем функцию для изменения веток
+  // создаем функцию для изменения веток
   var renderPin = function (dataObj) {
-// копируем шаблон
+  // копируем шаблон
     var clonedPin = templatePin.cloneNode(true);
-  // вносим изменения в позиции расположение метки, добавляем аватарку, заголовок объявления
+    // вносим изменения в позиции расположение метки, добавляем аватарку, заголовок объявления
     clonedPin.style = 'left: ' + (dataObj.location.x - (window.util.MAP_PIN_WIDTH / 2)) +
     'px; top: ' + (dataObj.location.y - (window.util.MAP_PIN_HEIGHT)) + 'px';
     clonedPin.querySelector('img').src = dataObj.author.avatar;
     clonedPin.alt = dataObj.offer.title;
     return clonedPin;
   };
-// создаем фрагмент
+  // создаем фрагмент
   var fragment = document.createDocumentFragment();
-// далее в цикле
+    // далее в цикле
   for (var numberOfObj = 0; numberOfObj < windows.mainArr.length; numberOfObj++) {
   // добавляем метки в дом для пинс
     fragment.appendChild(renderPin(windows.mainArr[numberOfObj]));
   }
-// добавляем фрагмент в map__pins
+  // добавляем фрагмент в map__pins
   houseOfPins.appendChild(fragment);
-// запрос шаблона объявления
+  // запрос шаблона объявления
   var templateCard = document.querySelector('template').content.querySelector('.map__card');
-// расположение блока map__filters-container, до которого нужно вставить наши элементы
+  // расположение блока map__filters-container, до которого нужно вставить наши элементы
   var blocMapFilters = document.querySelector('.map__filters-container');
-// функция для отображения типа жилья на русском языке
+  // функция для отображения типа жилья на русском языке
   var typeOfferTranslate = function (dataObj) {
     if (dataObj.offer.type === 'palace') {
       return 'Дворец';
@@ -45,7 +45,7 @@
     }
     return 'Неизвестная постройка';
   };
-// функция для добавления активных фичер
+  // функция для добавления активных фичер
   var addFeature = function (amenities, clonedCard) {
     var requestFeature = clonedCard.querySelector('.popup__features');
     var featureTemplate = document.querySelector('template').content.querySelector('.popup__feature');
@@ -59,7 +59,7 @@
     }
     return requestFeature;
   };
-// функция для добавления фотографий
+  // функция для добавления фотографий
   var addPhotos = function (photoParameter, clonedCard) {
     var photosList = clonedCard.querySelector('.popup__photos');
     var photo = photosList.querySelector('img');
@@ -74,7 +74,7 @@
   // создаем функцию для объявлений
   var renderCard = function (dataObj) {
     var clonedCard = templateCard.cloneNode(true);
-  // вносим изменения в позиции заголовок, адрес, цену, тип жилья, комнаты, гости, время заезда - выезда, удобства, описание, фотки
+    // вносим изменения в позиции заголовок, адрес, цену, тип жилья, комнаты, гости, время заезда - выезда, удобства, описание, фотки
     clonedCard.querySelector('.popup__title').textContent = dataObj.offer.title;
     clonedCard.querySelector('.popup__text--address').textContent = dataObj.offer.address;
     clonedCard.querySelector('.popup__text--price').textContent = dataObj.offer.price + '₽/ночь';
@@ -89,11 +89,11 @@
     clonedCard.setAttribute('hidden', true);
     return clonedCard;
   };
-// создаем фрагмент для объявлений
+  // создаем фрагмент для объявлений
   var cardFragment = document.createDocumentFragment();
   for (var numberOfObjCard = 0; numberOfObjCard < windows.mainArr.length; numberOfObjCard++) {
     cardFragment.appendChild(renderCard(windows.mainArr[numberOfObjCard]));
   }
-// добавляем фрагмент перед блоком.map__filters-container
+  // добавляем фрагмент перед блоком.map__filters-container
   windows.blockMap.insertBefore(cardFragment, blocMapFilters);
-})()
+})();
