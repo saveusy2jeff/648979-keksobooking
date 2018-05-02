@@ -66,4 +66,4 @@
     var buttonExit = popupClose[buttonNumber];
     onActivateAddressClick(activateAddress, activateAd, buttonExit);
   }
-})()
+})();

@@ -18,7 +18,7 @@
   };
   // создаем фрагмент
   var fragment = document.createDocumentFragment();
-    // далее в цикле
+  // далее в цикле
   for (var numberOfObj = 0; numberOfObj < windows.mainArr.length; numberOfObj++) {
   // добавляем метки в дом для пинс
     fragment.appendChild(renderPin(windows.mainArr[numberOfObj]));
