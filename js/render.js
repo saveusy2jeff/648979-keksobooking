@@ -90,14 +90,14 @@
     return clonedCard;
   };
   // создаем фрагмент для объявлений
-  var successHandler = function (dataObj) {
-  var cardFragment = document.createDocumentFragment();
-  for (var numberOfObjCard = 0; numberOfObjCard < window.mainArr.length; numberOfObjCard++) {
-    cardFragment.appendChild(renderCard(window.mainArr[numberOfObjCard]));
-  }
-  // добавляем фрагмент перед блоком.map__filters-container
-  window.blockMap.insertBefore(cardFragment, blocMapFilters);
-}
+  var successHandler = function () {
+    var cardFragment = document.createDocumentFragment();
+    for (var numberOfObjCard = 0; numberOfObjCard < window.mainArr.length; numberOfObjCard++) {
+      cardFragment.appendChild(renderCard(window.mainArr[numberOfObjCard]));
+    }
+    // добавляем фрагмент перед блоком.map__filters-container
+    window.blockMap.insertBefore(cardFragment, blocMapFilters);
+  };
   window.errorHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
@@ -105,8 +105,8 @@
     node.style.left = 0;
     node.style.right = 0;
     node.style.fontSize = '30px';
-    node.textContent = errorMessage; 
+    node.textContent = errorMessage
     document.body.insertAdjacentElement('afterbegin', node);
-  }
-  window.load(successHandler, errorHandler)
+  };
+  window.load(successHandler, window.errorHandler);
 })();

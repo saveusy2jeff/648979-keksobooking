@@ -73,6 +73,6 @@
   //   }
   // };
   // window.util.makeMainArr();
-  }
+  };
 }
 )();

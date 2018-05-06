@@ -49,12 +49,12 @@
   formRooms.addEventListener('change', syncNumberRoomsandGuests);
   formCapacity.addEventListener('change', syncNumberRoomsandGuests);
   var formSubmit = document.querySelector('#ad-form__submit');
-  var successMessage = document.querySelector('.success')
+  var successMessage = document.querySelector('.success');
   formSubmit.addEventListener('submit', function (evt) {
-    window.upload( new FormData(multipart/form-data), function(response){
+    window.upload(new multipart/form-data(form), function (response) {
       successMessage.classListremove('hidden');
     },
-    window.errorHandler(errorMessage));
+    window.errorHandler);
     evt.preventDefault();
   });
 })();
