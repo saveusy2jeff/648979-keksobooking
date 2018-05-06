@@ -5,7 +5,7 @@
   var houseOfPins = document.querySelector('.map__pins');
   // запрос к шаблону с разметкой метки
   var templatePin = document.querySelector('template').content.querySelector('.map__pin');
-  // создаем функцию для изменения веток
+  // создаем функцию для изменения меток
   var renderPin = function (dataObj) {
   // копируем шаблон
     var clonedPin = templatePin.cloneNode(true);
@@ -90,10 +90,23 @@
     return clonedCard;
   };
   // создаем фрагмент для объявлений
+  var successHandler = function (dataObj) {
   var cardFragment = document.createDocumentFragment();
   for (var numberOfObjCard = 0; numberOfObjCard < window.mainArr.length; numberOfObjCard++) {
     cardFragment.appendChild(renderCard(window.mainArr[numberOfObjCard]));
   }
   // добавляем фрагмент перед блоком.map__filters-container
   window.blockMap.insertBefore(cardFragment, blocMapFilters);
+}
+  window.errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.textContent = errorMessage; 
+    document.body.insertAdjacentElement('afterbegin', node);
+  }
+  window.load(successHandler, errorHandler)
 })();

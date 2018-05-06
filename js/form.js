@@ -42,10 +42,19 @@
       formCapacity.setCustomValidity('Выбранное значение количества гостей не подходит под количество комнат!');
     }
   };
-  setMinPrice()
-  syncNumberRoomsandGuests()
+  setMinPrice();
+  syncNumberRoomsandGuests();
   onFormTimeInTimeOutChange(formTimeIn, formTimeOut);
   formType.addEventListener('change', setMinPrice);
   formRooms.addEventListener('change', syncNumberRoomsandGuests);
   formCapacity.addEventListener('change', syncNumberRoomsandGuests);
+  var formSubmit = document.querySelector('#ad-form__submit');
+  var successMessage = document.querySelector('.success')
+  formSubmit.addEventListener('submit', function (evt) {
+    window.upload( new FormData(multipart/form-data), function(response){
+      successMessage.classListremove('hidden');
+    },
+    window.errorHandler(errorMessage));
+    evt.preventDefault();
+  });
 })();
